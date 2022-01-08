@@ -6,5 +6,7 @@ if __name__ == '__main__':
     extracted_df = extract_all_pages()
 
     transform_df = transform_all(extracted_df)
-    print(extracted_df)
-# df.to_csv("jobs.csv", encoding='utf-8')
+    transform_df.to_csv("jobs.csv", encoding='utf-8')
+
+    #print(transform_df)
+
