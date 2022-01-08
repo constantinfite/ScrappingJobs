@@ -4,6 +4,7 @@ from datetime import date, timedelta
 def transform_post_date(post_date_array):
     digit_post_date = convert_to_digit(post_date_array)
     post_date = convert_to_date(digit_post_date)
+
     return post_date
 
 
@@ -12,6 +13,7 @@ def convert_to_digit(post_date_array):
 
     for item in post_date_array:
         item = item.replace("PostedAujourd'hui", "0")
+        item = item.replace("PostedPubliée à l'instant", "0")
         item = item.replace("30+", "30")
 
         for subitem in item.split():

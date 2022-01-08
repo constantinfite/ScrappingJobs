@@ -27,8 +27,8 @@ def extract(page):
     # For each block we look for the informations
     for job_elem in job_elems:
         job_titles.append(extract_job_title_indeed(job_elem))
-        company_names.append(extract_company_location_indeed(job_elem))
-        company_locations.append(extract_company_name_indeed(job_elem))
+        company_names.append(extract_company_name_indeed(job_elem))
+        company_locations.append(extract_company_location_indeed(job_elem))
         extract_dates.append(extract_extract_date())
         job_links.append(extract_job_link_indeed(job_elem))
 
@@ -69,7 +69,7 @@ def extract_job_link_indeed(element):
 
 # Loop over pages
 def extract_all_pages():
-    for i in range(0, 10, 10):
+    for i in range(0, 40, 10):
         extract(i)
 
     indeed_dictionnary = {
@@ -77,7 +77,7 @@ def extract_all_pages():
         "Location": company_locations,
         "Job": job_titles,
         "Extract Date": extract_dates,
-        "Post Date": post_dates,
+        "Post Day": post_dates,
         "Job link": job_links,
     }
 
