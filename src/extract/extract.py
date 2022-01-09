@@ -3,6 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from datetime import date
+import re
+import math
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
@@ -17,12 +19,7 @@ job_links = []
 is_consulted = []
 
 
-def extract(page):
-    # Get hmtl text
-    link = f'https://fr.indeed.com/jobs?q=data%20engineer&l=Provence-Alpes-C%C3%B4te%20d%27Azur&start={page}'
-    r = requests.get(link, headers)
-    soup = BeautifulSoup(r.content, 'html.parser')
-    job_elems = soup.findAll("a", class_="tapItem")
+def extract(job_elems):
 
     # For each block we look for the informations
     for job_elem in job_elems:
@@ -67,10 +64,31 @@ def extract_job_link_indeed(element):
     return link
 
 
+def extract_number_pages(soup):
+    raw_total_number_jobs = soup.find("div", class_="searchCountContainer").text
+    raw_total_number_jobs = raw_total_number_jobs.replace(" ", "")
+    regex = r"((\d+ )?\d+) emplois"
+    total_job_array = re.findall(regex, raw_total_number_jobs)
+    total_job = total_job_array[0][0]
+    total_pages = math.ceil(int(total_job) / 15)
+
+    return total_pages
+
+
 # Loop over pages
-def extract_all_pages():
-    for i in range(0, 40, 10):
-        extract(i)
+def extract_all_pages(job, location, job_type):
+
+    # Get hmtl text
+    link = f'https://fr.indeed.com/jobs?q={job}&l={location}'
+    print(link)
+    r = requests.get(link, headers)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    job_elems = soup.findAll("a", class_="tapItem")
+
+    number_pages = extract_number_pages(soup)
+    # Loop over pages
+    for i in range(0, number_pages * 10, 10):
+        extract(job_elems)
 
     indeed_dictionnary = {
         "Company": company_names,
@@ -83,3 +101,6 @@ def extract_all_pages():
 
     df_extracted = pd.DataFrame(indeed_dictionnary)
     return df_extracted
+
+# https://fr.indeed.com/jobs?q=Data%20Engineer&l=Paris
+# https://www.indeed.com/jobs?q=data%20engineer&l=Paris
