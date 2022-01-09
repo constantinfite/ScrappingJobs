@@ -9,6 +9,7 @@ pandas = "*"
 beautifulsoup4 = "*"
 selenium = "*"
 lxml = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 
