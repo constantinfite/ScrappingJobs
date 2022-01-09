@@ -22,6 +22,7 @@ is_consulted = []
 
 def extract(job_elems):
     # For each job card we look for the informations
+
     for job_elem in job_elems:
 
         try:
@@ -90,28 +91,32 @@ def extract_all_pages(job, location, job_type):
         r = requests.get(url, headers)
         soup = BeautifulSoup(r.content, 'html.parser')
         job_elems = soup.findAll("a", class_="tapItem")
+
+        if (job_elems == []):
+            print("Blocked")
+            break
+
         # Extract array of cards
         extract(job_elems)
 
         # If next button exist change url to the next url page
         try:
-
             url = "https://fr.indeed.com" + soup.find('a', {'aria-label': 'Suivant'}).get('href')
             c += 1
             print("Page number :", url)
-            #time.sleep(10)
+            # time.sleep(5)
         except AttributeError:
             break
 
-    extract_number_pages(soup)
+    # extract_number_pages(soup)
 
     indeed_dictionnary = {
-        "Company": company_names,
+        "company_name": company_names,
         "Location": company_locations,
-        "Job": job_titles,
-        "Extract Date": extract_dates,
+        "job_title": job_titles,
+        "extracted_date": extract_dates,
         "Post Day": post_dates,
-        "Job link": job_links,
+        "job_link": job_links,
     }
 
     df_extracted = pd.DataFrame(indeed_dictionnary)
