@@ -25,34 +25,36 @@ def extract(job_elems):
 
     for job_elem in job_elems:
 
-        try:
-            job_titles.append(extract_job_title_indeed(job_elem))
-            company_names.append(extract_company_name_indeed(job_elem))
-            company_locations.append(extract_company_location_indeed(job_elem))
-            extract_dates.append(extract_extract_date())
-            job_links.append(extract_job_link_indeed(job_elem))
-            post_dates.append(extract_post_date(job_elem))
-
-        except AttributeError:
-            print("------------ Block -------------")
-            break
+        job_titles.append(extract_job_title_indeed(job_elem))
+        company_names.append(extract_company_name_indeed(job_elem))
+        company_locations.append(extract_company_location_indeed(job_elem))
+        extract_dates.append(extract_extract_date())
+        job_links.append(extract_job_link_indeed(job_elem))
+        post_dates.append(extract_post_date(job_elem))
 
 
 def extract_job_title_indeed(element):
-    title = element.find("span", class_=None).text.replace("\n", "")
-
-    return title
+    try:
+        title = element.find("span", class_=None).text.replace("\n", "")
+        return title
+    except AttributeError:
+        return ""
 
 
 def extract_company_location_indeed(element):
-    location = element.find("div", class_="companyLocation").text.replace("\n", "")
-    return location
+    try:
+        location = element.find("div", class_="companyLocation").text.replace("\n", "")
+        return location
+    except AttributeError:
+        return ""
 
 
 def extract_company_name_indeed(element):
-    company = element.find("span", class_="companyName").text.replace("\n", "")
-
-    return company
+    try:
+        company = element.find("span", class_="companyName").text.replace("\n", "")
+        return company
+    except AttributeError:
+        return ""
 
 
 def extract_extract_date():
@@ -60,13 +62,19 @@ def extract_extract_date():
 
 
 def extract_post_date(element):
-    post_date = element.find("span", class_="date").text.replace("\n", "")
-    return post_date
+    try:
+        post_date = element.find("span", class_="date").text.replace("\n", "")
+        return post_date
+    except AttributeError:
+        return ""
 
 
 def extract_job_link_indeed(element):
-    link = "https://www.indeed.com" + element.get('href')
-    return link
+    try:
+        link = "https://www.indeed.com" + element.get('href')
+        return link
+    except AttributeError:
+        return ""
 
 
 def extract_number_pages(soup):
@@ -86,13 +94,12 @@ def extract_number_pages(soup):
 def extract_all_pages(job, location, job_type):
     url = f'https://fr.indeed.com/jobs?q={job}&l={location}&jt={job_type}&start=0'
     print(url)
-    c = 0
     while True:
         r = requests.get(url, headers)
         soup = BeautifulSoup(r.content, 'html.parser')
         job_elems = soup.findAll("a", class_="tapItem")
 
-        if (job_elems == []):
+        if not job_elems:
             print("Blocked")
             break
 
@@ -102,13 +109,18 @@ def extract_all_pages(job, location, job_type):
         # If next button exist change url to the next url page
         try:
             url = "https://fr.indeed.com" + soup.find('a', {'aria-label': 'Suivant'}).get('href')
-            c += 1
             print("Page number :", url)
             # time.sleep(5)
         except AttributeError:
             break
 
     # extract_number_pages(soup)
+    print(len(company_names))
+    print(len(company_locations))
+    print(len(job_titles))
+    print(len(extract_dates))
+    print(len(post_dates))
+    print(len(job_links))
 
     indeed_dictionnary = {
         "company_name": company_names,
