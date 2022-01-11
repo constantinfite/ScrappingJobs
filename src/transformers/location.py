@@ -1,5 +1,6 @@
 import re
 
+
 def get_departement(location_array):
     departements = []
     for location in location_array:
@@ -12,7 +13,15 @@ def get_departement(location_array):
 
 def get_city(location_array):
     cities = []
-    regex = re.compile("(.*?)\s*\(")
+    regex = r"(.*?)\s*\("
+    # .*(?<!\))$|([\w ]*)\(
     for location in location_array:
-        cities.append(re.findall(regex, location))
+        if "(" in location:
+            city = re.findall(regex, location)
+            cities.append(city[0])
+        elif location[0].isdigit():
+            city = location.split()[1]
+            cities.append(city)
+        else:
+            cities.append(location)
     return cities
