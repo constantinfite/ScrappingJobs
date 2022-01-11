@@ -1,15 +1,16 @@
+import pandas as pd
 import sqlalchemy
 import sqlite3
 
 DATABASE_LOCATION = "sqlite:///my_jobs.sqlite"
+
 
 def load(transform_df):
     engine = sqlalchemy.create_engine(DATABASE_LOCATION)
     conn = sqlite3.connect('my_jobs.sqlite')
     cursor = conn.cursor()
 
-
-    sql_query = """
+    sql_query_create_table = """
         CREATE TABLE IF NOT EXISTS my_jobs(
             company_name VARCHAR(200),
             job_title VARCHAR(200),
@@ -22,16 +23,23 @@ def load(transform_df):
             CONSTRAINT primary_key_constraint PRIMARY KEY (job_link) 
         )
         """
+    sql_query_drop_table = """
+        DROP TABLE IF EXISTS my_jobs
+    """
 
-    #cursor.execute("DROP TABLE IF EXISTS my_jobs")
-    cursor.execute(sql_query)
+    #cursor.execute(sql_query_drop_table)
+
+    cursor.execute(sql_query_create_table)
 
     print("Opened database successfully")
 
-    # try:
-    transform_df.to_sql("my_jobs", engine, index=False, if_exists='replace')
-    # except:
-    #     print("Data already exists in the database")
+    # transform_df.to_sql("my_jobs", engine, index=False, if_exists='append')
+
+    for i in range(len(transform_df)):
+        try:
+            transform_df.iloc[i:i + 1].to_sql("my_jobs", engine, index=False, if_exists='append')
+        except :
+            print(i)
 
     conn.close()
     print("Close database successfully")
