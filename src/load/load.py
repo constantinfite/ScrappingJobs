@@ -17,21 +17,21 @@ def load(transform_df):
             department INT,
             post_date DATE,
             extracted_date DATE,
-            job_link VARCHAR(200),
+            job_link,
             
-            CONSTRAINT primary_key_constraint PRIMARY KEY (job_link)
+            CONSTRAINT primary_key_constraint PRIMARY KEY (job_link) 
         )
         """
 
-    cursor.execute("DROP TABLE IF EXISTS my_jobs")
+    #cursor.execute("DROP TABLE IF EXISTS my_jobs")
     cursor.execute(sql_query)
 
     print("Opened database successfully")
 
-    try:
-        transform_df.to_sql("my_jobs", engine, index=False, if_exists='append')
-    except:
-        print("Data already exists in the database")
+    # try:
+    transform_df.to_sql("my_jobs", engine, index=False, if_exists='replace')
+    # except:
+    #     print("Data already exists in the database")
 
     conn.close()
     print("Close database successfully")

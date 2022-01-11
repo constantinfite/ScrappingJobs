@@ -38,6 +38,7 @@ def extract_job_title_indeed(element):
         title = element.find("span", class_=None).text.replace("\n", "")
         return title
     except AttributeError:
+        print("job_title")
         return ""
 
 
@@ -46,6 +47,7 @@ def extract_company_location_indeed(element):
         location = element.find("div", class_="companyLocation").text.replace("\n", "")
         return location
     except AttributeError:
+        print("location")
         return ""
 
 
@@ -54,6 +56,7 @@ def extract_company_name_indeed(element):
         company = element.find("span", class_="companyName").text.replace("\n", "")
         return company
     except AttributeError:
+        print("company")
         return ""
 
 
@@ -66,6 +69,7 @@ def extract_post_date(element):
         post_date = element.find("span", class_="date").text.replace("\n", "")
         return post_date
     except AttributeError:
+        print("post date")
         return ""
 
 
@@ -74,6 +78,7 @@ def extract_job_link_indeed(element):
         link = "https://www.indeed.com" + element.get('href')
         return link
     except AttributeError:
+        print("link")
         return ""
 
 
@@ -115,12 +120,6 @@ def extract_all_pages(job, location, job_type):
             break
 
     # extract_number_pages(soup)
-    print(len(company_names))
-    print(len(company_locations))
-    print(len(job_titles))
-    print(len(extract_dates))
-    print(len(post_dates))
-    print(len(job_links))
 
     indeed_dictionnary = {
         "company_name": company_names,

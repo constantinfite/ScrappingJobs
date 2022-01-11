@@ -1,4 +1,4 @@
-
+import re
 
 def get_departement(location_array):
     departements = []
@@ -12,6 +12,7 @@ def get_departement(location_array):
 
 def get_city(location_array):
     cities = []
+    regex = re.compile("(.*?)\s*\(")
     for location in location_array:
-        cities.append(location.split()[0])
+        cities.append(re.findall(regex, location))
     return cities
