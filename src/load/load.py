@@ -1,4 +1,3 @@
-import pandas as pd
 import sqlalchemy
 import sqlite3
 
@@ -33,13 +32,12 @@ def load(transform_df):
 
     print("Opened database successfully")
 
-    # transform_df.to_sql("my_jobs", engine, index=False, if_exists='append')
-
     for i in range(len(transform_df)):
+        # If element already exists in the table
         try:
             transform_df.iloc[i:i + 1].to_sql("my_jobs", engine, index=False, if_exists='append')
-        except :
-            print(i)
+        except:
+            pass
 
     conn.close()
     print("Close database successfully")

@@ -115,7 +115,7 @@ def extract_all_pages(job, location, job_type):
         try:
             url = "https://fr.indeed.com" + soup.find('a', {'aria-label': 'Suivant'}).get('href')
             print("Page number :", url)
-            time.sleep(1)
+            time.sleep(10)
         except AttributeError:
             break
 

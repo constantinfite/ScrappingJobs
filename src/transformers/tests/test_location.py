@@ -2,7 +2,7 @@ import unittest
 from src.transformers import location
 
 
-class test_location(unittest.TestCase):
+class Test_Location(unittest.TestCase):
 
     def test_get_departement(self):
         fake_locations = ["Carros (06)", "France", "Marseille (13)"]

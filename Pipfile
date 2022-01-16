@@ -10,6 +10,7 @@ beautifulsoup4 = "*"
 selenium = "*"
 lxml = "*"
 sqlalchemy = "*"
+apache-airflow = "*"
 
 [dev-packages]
 
