@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from selenium import webdriver
+
 from datetime import date
 import re
 import math
