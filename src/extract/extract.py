@@ -61,7 +61,7 @@ def extract_company_name_indeed(element):
 
 
 def extract_extract_date():
-    return date.today().strftime('%Y-%m-%d')
+    return date.today().strftime('%Y-%m-%d %H:%M:%S"')
 
 
 def extract_post_date(element):
@@ -115,7 +115,7 @@ def extract_all_pages(job, location, job_type):
         try:
             url = "https://fr.indeed.com" + soup.find('a', {'aria-label': 'Suivant'}).get('href')
             print("Page number :", url)
-            time.sleep(10)
+            time.sleep(2)
         except AttributeError:
             break
 
