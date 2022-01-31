@@ -1,5 +1,6 @@
 import sqlalchemy
 import sqlite3
+from src import constants
 
 DATABASE_LOCATION = "sqlite:///my_jobs.sqlite"
 
@@ -26,7 +27,7 @@ def load(transform_df):
         DROP TABLE IF EXISTS my_jobs
     """
 
-    #cursor.execute(sql_query_drop_table)
+    cursor.execute(sql_query_drop_table)
 
     cursor.execute(sql_query_create_table)
 

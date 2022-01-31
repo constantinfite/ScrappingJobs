@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy
+from src import constants
 
 from src.extract.extract import extract_all_pages
 from src.transformers.transform import transform_all
@@ -7,7 +8,7 @@ from src.load.load import load
 
 
 def jobs_etl():
-    extracted_df = extract_all_pages("data", "", "permanent")
+    extracted_df = extract_all_pages(constants.JOB_TITLE, constants.LOCATION, constants.DURATION)
     extracted_df.to_csv("jobs.csv", encoding='utf-8')
 
     transform_df = transform_all(extracted_df)
@@ -16,5 +17,6 @@ def jobs_etl():
     load(transform_df)
 
     # print(transform_df)
+
 
 jobs_etl()

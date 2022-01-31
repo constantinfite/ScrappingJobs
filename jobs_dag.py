@@ -15,7 +15,7 @@ default_args = {
 
 dag = DAG('jobs_dag', default_args=default_args,
           start_date=datetime(2022, 1, 16),
-          schedule_interval="15 * * * *")
+          schedule_interval="15 8 * * *")
 
 
 def just_a_function():

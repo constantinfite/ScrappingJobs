@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import date
 import re
 import math
+from datetime import datetime
 import time
 
 headers = {
@@ -61,7 +62,7 @@ def extract_company_name_indeed(element):
 
 
 def extract_extract_date():
-    return date.today().strftime('%Y-%m-%d %H:%M:%S"')
+    return datetime.now().strftime('%Y-%m-%d %H:%M"')
 
 
 def extract_post_date(element):
@@ -97,6 +98,7 @@ def extract_number_pages(soup):
 
 # Loop over pages
 def extract_all_pages(job, location, job_type):
+    job = job.replace(" ", "%20")
     url = f'https://fr.indeed.com/jobs?q={job}&l={location}&jt={job_type}&start=0'
     print(url)
     while True:
