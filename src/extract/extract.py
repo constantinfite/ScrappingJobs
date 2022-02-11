@@ -62,7 +62,7 @@ def extract_company_name_indeed(element):
 
 
 def extract_extract_date():
-    return datetime.now().strftime('%Y-%m-%d %H:%M"')
+    return datetime.now().strftime('%Y-%m-%d %H:%M')
 
 
 def extract_post_date(element):

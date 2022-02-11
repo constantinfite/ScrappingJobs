@@ -15,6 +15,7 @@ def convert_to_digit(post_date_array):
         item = item.replace("PostedAujourd'hui", "0")
         item = item.replace("PostedPubliée à l'instant", "0")
         item = item.replace("30+", "30")
+        item = item.replace("Recrutement régulier", "0")
 
         for subitem in item.split():
             if (subitem.isdigit()):
