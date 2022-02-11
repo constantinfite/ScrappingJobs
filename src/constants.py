@@ -1,3 +1,3 @@
-JOB_TITLE = "python junior"
+JOB_TITLE = "data engineer"
 DURATION = "permanent"
 LOCATION = ""
